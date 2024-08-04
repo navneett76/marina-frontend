@@ -1,0 +1,29 @@
+.top-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.Contract_list_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+
+    .filter_area {
+        display: flex;
+        height: 100px;
+        align-items: center;
+        justify-content: end;
+        margin-right: 4%;
+        gap: 8%;
+
+        .filter_fields{
+            display: flex;
+            justify-self: end;
+        }
+    }
+}
+

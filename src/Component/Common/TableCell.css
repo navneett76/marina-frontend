@@ -1,0 +1,74 @@
+/* src/styles/TableCell.css */
+.table-cell {
+    max-width: 300px;
+    /* Adjust as needed */
+    overflow: hidden;
+    white-space: pre-wrap;
+    /* Ensures long words will break and wrap */
+    word-wrap: break-word;
+    /* Allows long words to wrap onto the next line */
+    position: relative;
+}
+
+.table-cell:hover::after {
+    content: attr(data-full-text);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    white-space: pre-wrap;
+    /* Wrap text if it exceeds the container width */
+    background: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    max-width: 300px;
+    /* Adjust as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 10;
+    display: none;
+    /* Hidden by default */
+}
+
+.table-cell:hover::after {
+    display: block;
+    /* Show on hover */
+}
+
+
+.btn_custom_color1{
+    color: #02158b !important; 
+}
+
+.btn_custom_color{
+    color: #02158b;
+    font-weight: 400;
+
+    :disabled {
+        color: gainsboro;
+    } 
+}
+
+
+.beam_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .beam_dimention {
+        width: 65px;
+        min-width: 45px !important;
+    }
+}
+.Mui-active, 
+.MuiTableSortLabel-iconDirectionAsc, 
+.MuiTableSortLabel-iconDirectionDesc,
+.MuiTableSortLabel-iconDirectionDesc:hover,
+.MuiTableSortLabel-iconDirectionAsc:hover,
+MuiTableCell-head,
+MuiTableCell-head:hover
+{
+    color: #fff !important;
+}

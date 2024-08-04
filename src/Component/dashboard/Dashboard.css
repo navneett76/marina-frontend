@@ -1,0 +1,50 @@
+.top-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    .upload-section{
+        /* border: 1px solid; */
+    }
+
+    .graph-section{
+        /* border: 1px solid; */
+    }
+}
+
+.refreshBtn {
+    margin-left: 4.5%;
+}
+.Contract_list_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+
+    .filter_area {
+        display: flex;
+        height: 100px;
+        align-items: center;
+        /* justify-content: end; */
+        margin-right: 4%;
+        gap: 4%;
+
+        .filter_fields{
+            display: flex;
+            /* justify-self: end; */
+            width: 90%;
+        }
+    }
+}
+
+.Mui-active, 
+.MuiTableSortLabel-iconDirectionAsc, 
+.MuiTableSortLabel-iconDirectionDesc,
+.MuiTableSortLabel-iconDirectionDesc:hover,
+.MuiTableSortLabel-iconDirectionAsc:hover,
+MuiTableCell-head,
+MuiTableCell-head:hover
+{
+    color: #fff !important;
+}

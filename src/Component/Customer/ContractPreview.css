@@ -1,0 +1,51 @@
+
+.send_contract {
+    text-align: center;
+    color: green;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.invoice-container { 
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #011689;
+    border-radius: 10px;
+
+    .invoice-header { 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .invoice-logo{ 
+            height: 100px;
+        }
+        .ship-address { 
+            text-align: center;
+            h1{
+                color: #011689;
+            }
+        }
+    }
+
+    section.invoice-details{
+        border: 1px solid #011689;
+        border-radius: 2px;
+        display: flex;
+        margin-bottom: 1px;
+
+        .invoice-first-child, .invoice-second-child{
+            width: 48%;
+            padding: 1%;
+            padding-left: 15px;
+        }
+
+        .invoice-first-child{
+            border-right: 1px solid #011689;
+        }
+    }
+    
+
+}
