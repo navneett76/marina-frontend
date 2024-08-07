@@ -16,45 +16,47 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { IconButton, Tooltip } from '@mui/material';
 import { DatePicker, LocalizationProvider, DatePickerProps } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import {styled} from '@mui/material';
+import { styled } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 const CustomIconButton = styled(IconButton)(({ theme }) => ({
     backgroundColor: '#02158b', // custom color
     color: '#fff', // text color
     '&:hover': {
-      backgroundColor: '#02158b', // custom hover color
+        backgroundColor: '#02158b', // custom hover color
     },
     marginRight: '5px',
-  }));
-  
+}));
+
 const CustomButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#02158b', // custom color
     color: '#fff', // text color
     '&:hover': {
-      backgroundColor: '#02158b', // custom hover color
+        backgroundColor: '#02158b', // custom hover color
     },
     marginRight: '5px',
-  }));
-  
-  const CustomTableHead = styled(TableHead)(({ theme }) => ({
+}));
+
+const CustomTableHead = styled(TableHead)(({ theme }) => ({
     backgroundColor: '#02158b', // custom color
     color: '#ffffff',
     '&:hover': {
         color: '#ffffff',
     },
-    '&:.Mui-active':{
+    '&:.Mui-active': {
         color: '#ffffff',
     },
     '& .MuiTableCell-root': {
-      color: '#ffffff', // custom text color
-      fontWeight: 'bold', // make the text bold
+        color: '#ffffff', // custom text color
+        fontWeight: 'bold', // make the text bold
     },
     '& .MuiButtonBase-root:hover': {
         color: '#ffffff',
     }
-  }));
-  
-  
+}));
+
+
 
 
 interface Contract {
@@ -84,9 +86,9 @@ const Dashboard: React.FC = () => {
     const axiosInstance = useAxiosInstance();
     const [contracts, setContracts] = useState<Contract[]>([]);
     const [filteredContracts, setFilteredContracts] = useState<Contract[]>([]);
-    const [filter, setFilter] = useState<string>('');
+    // const [filter, setFilter] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
     const [orderBy, setOrderBy] = useState<keyof Contract>('customer_id');
     const [refresh, setRefresh] = useState(false);
     const [page, setPage] = useState(0);
@@ -102,6 +104,14 @@ const Dashboard: React.FC = () => {
         setFilterFlag(!filterFlag);
     };
 
+    const resetFilterVal = () => {
+        setKeyword('')
+        setStartDate(null)
+        setEndDate(null)
+        setStatus('')
+        handleFilter();
+    };
+
 
     const location = useLocation();
     const { envelopesId } = (location.state) ? location.state : '';
@@ -110,7 +120,7 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         if (envelopesId !== '' && envelopesId !== null) {
             setKeyword(envelopesId);
-            setTimeout(()=> handleFilter(), 100);
+            setTimeout(() => handleFilter(), 100);
         }
     }, [envelopesId])
 
@@ -130,7 +140,7 @@ const Dashboard: React.FC = () => {
             .then(response => {
                 console.log("testing response: ", response)
                 getRecordFromContractTable();
-                setTimeout(()=> handleFilter(), 100);
+                setTimeout(() => handleFilter(), 100);
             })
             .catch(error => {
                 console.error("There was an error update the customers!", error);
@@ -149,25 +159,25 @@ const Dashboard: React.FC = () => {
     }
 
     const downloadContract = async (customer: Contract, documentId: number = 1) => {
-        try{
+        try {
             // setLoading(true);
-        const response = await axiosInstance.get('/contract/' + customer.all_contract_envelopeId + '/download/' + documentId, { responseType: 'arraybuffer' })
-        if (response.data) {
-            // setLoading(false);
-            const blob = new Blob([response.data], { type: 'application/pdf' });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `document_${customer.customer_fname}_${customer.customer_id}.pdf`);
-            document.body.appendChild(link);
-            link.click();
+            const response = await axiosInstance.get('/contract/' + customer.all_contract_envelopeId + '/download/' + documentId, { responseType: 'arraybuffer' })
+            if (response.data) {
+                // setLoading(false);
+                const blob = new Blob([response.data], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `document_${customer.customer_fname}_${customer.customer_id}.pdf`);
+                document.body.appendChild(link);
+                link.click();
 
+            }
         }
-    }
-    catch (error) {
-        // setLoading(false);
-        console.log("Some error in download. Please check the access token")
-    }
+        catch (error) {
+            // setLoading(false);
+            console.log("Some error in download. Please check the access token")
+        }
         // link.parentNode.removeChild(link); // Clean up the DOM
     };
 
@@ -222,7 +232,7 @@ const Dashboard: React.FC = () => {
         axiosInstance.get('/getall/contracts')
             .then(response => {
                 getRecordFromContractTable();
-                setTimeout(()=> handleFilter(), 100);
+                setTimeout(() => handleFilter(), 100);
             })
             .catch(() => {
             })
@@ -288,14 +298,14 @@ const Dashboard: React.FC = () => {
                     contract.all_contract_status.toLowerCase().includes(status.toLowerCase())
                 );
             }
-            if (startDate !== null && startDate ) {
+            if (startDate !== null && startDate) {
                 // let filteredVal = (filteredContracts.length > 0) ? filteredContracts : contracts;
                 filterData = filterData.filter(contract =>
                     new Date(contract.all_contract_sentDateTime) >= new Date(startDate) ||
                     new Date(contract.all_contract_statusChangedDateTime) >= new Date(startDate)
                 );
             }
-            if (endDate !== null && endDate ) {
+            if (endDate !== null && endDate) {
                 console.log("enddate is: ", new Date(endDate))
                 // let filteredVal = (filteredContracts.length > 0) ? filteredContracts : contracts;
                 filterData = filterData.filter(contract =>
@@ -303,7 +313,7 @@ const Dashboard: React.FC = () => {
                     new Date(contract.all_contract_statusChangedDateTime) <= new Date(endDate)
                 );
             }
-           
+
             setFilteredContracts(filterData);
             // console.log("filteredContracts: ", filterData);
             setPage(0);
@@ -350,8 +360,8 @@ const Dashboard: React.FC = () => {
 
             <div className='Contract_list_container'>
                 <div className='filter_area'>
-                    
-                <div className='refreshBtn'>
+
+                    <div className='refreshBtn'>
                         <CustomButton
                             variant="contained"
                             startIcon={<RefreshIcon />}
@@ -359,6 +369,7 @@ const Dashboard: React.FC = () => {
                         >
                             Refresh
                         </CustomButton>
+
                     </div>
 
                     <div className='filter_fields'>
@@ -398,8 +409,8 @@ const Dashboard: React.FC = () => {
                                         fullWidth
                                     >
                                         <MenuItem key="blank" value="">
-                                                -- Select Status --
-                                            </MenuItem>
+                                            -- Select Status --
+                                        </MenuItem>
                                         {statusOptions.map((option) => (
 
                                             <MenuItem key={option} value={option}>
@@ -425,10 +436,16 @@ const Dashboard: React.FC = () => {
                                     />
 
                                 </Grid>
-                                <Grid item xs={6} sm={1.5}>
-                                    <CustomButton variant="contained" fullWidth onClick={() => handleFilter()}>
-                                        Filter
-                                    </CustomButton>
+                                <Grid item xs={6} sm={.75}>
+                                    <CustomIconButton onClick={() => handleFilter()} aria-label="download">
+                                        <FilterListIcon onClick={() => handleFilter()} />
+                                    </CustomIconButton>
+                                </Grid>
+                                <Grid item xs={6} sm={.75}>
+                                    <CustomIconButton onClick={() => resetFilterVal()} aria-label="download">
+                                        <RestartAltIcon />
+                                    </CustomIconButton>
+
                                 </Grid>
                             </Grid>
                         </LocalizationProvider>
@@ -494,7 +511,7 @@ const Dashboard: React.FC = () => {
                                                         direction={orderBy === 'customer_phone' ? sortDirection : 'asc'}
                                                         onClick={() => handleRequestSort('customer_phone')}
                                                     >Phone</TableSortLabel></TableCell>
-                                                <TableCell
+                                                <TableCell style={{ minWidth: '160px' }}
                                                     sx={{
                                                         textAlign: 'center',
                                                         fontWeight: 'bold',
@@ -503,7 +520,27 @@ const Dashboard: React.FC = () => {
                                                         active={orderBy === 'all_contract_status'}
                                                         direction={orderBy === 'all_contract_status' ? sortDirection : 'asc'}
                                                         onClick={() => handleRequestSort('all_contract_status')}
-                                                    >Status</TableSortLabel></TableCell>
+                                                    >Contract Status</TableSortLabel></TableCell>
+                                                <TableCell style={{ minWidth: '160px' }}
+                                                    sx={{
+                                                        textAlign: 'center',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '1rem', // Adjust font size as needed
+                                                    }}><TableSortLabel
+                                                        active={orderBy === 'all_contract_status'}
+                                                        direction={orderBy === 'all_contract_status' ? sortDirection : 'asc'}
+                                                        onClick={() => handleRequestSort('all_contract_status')}
+                                                    >Payment Method</TableSortLabel></TableCell>
+                                                <TableCell style={{ minWidth: '160px' }}
+                                                    sx={{
+                                                        textAlign: 'center',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '1rem', // Adjust font size as needed
+                                                    }}><TableSortLabel
+                                                        active={orderBy === 'all_contract_status'}
+                                                        direction={orderBy === 'all_contract_status' ? sortDirection : 'asc'}
+                                                        onClick={() => handleRequestSort('all_contract_status')}
+                                                    >Payment Status</TableSortLabel></TableCell>
                                                 {/* <TableCell style={{ minWidth: '150px' }}
                                                     sx={{
                                                         textAlign: 'center',
@@ -516,7 +553,7 @@ const Dashboard: React.FC = () => {
                                                         onClick={() => handleRequestSort('all_contract_envelopeId')}
                                                     >DocuSign EnvelopeID</TableSortLabel></TableCell> */}
 
-                                                <TableCell
+                                                <TableCell style={{ minWidth: '120px' }}
                                                     sx={{
                                                         textAlign: 'center',
                                                         fontWeight: 'bold',
@@ -526,7 +563,7 @@ const Dashboard: React.FC = () => {
                                                         direction={orderBy === 'all_contract_sentDateTime' ? sortDirection : 'asc'}
                                                         onClick={() => handleRequestSort('all_contract_sentDateTime')}
                                                     >Sent Date</TableSortLabel></TableCell>
-                                                <TableCell
+                                                <TableCell style={{ minWidth: '130px' }}
                                                     sx={{
                                                         textAlign: 'center',
                                                         fontWeight: 'bold',
@@ -536,7 +573,7 @@ const Dashboard: React.FC = () => {
                                                         direction={orderBy === 'all_contract_statusChangedDateTime' ? sortDirection : 'asc'}
                                                         onClick={() => handleRequestSort('all_contract_statusChangedDateTime')}
                                                     >Last Updated</TableSortLabel></TableCell>
-                                                <TableCell style={{ width: '100px' }}
+                                                <TableCell style={{ minWidth: '100px' }}
                                                     sx={{
                                                         textAlign: 'center',
                                                         fontWeight: 'bold',
@@ -568,6 +605,16 @@ const Dashboard: React.FC = () => {
                                                             fontSize: '.8rem', // Adjust font size as needed
                                                             textTransform: 'capitalize'
                                                         }}>{contract.all_contract_status}</TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            fontSize: '.8rem', // Adjust font size as needed
+                                                            textTransform: 'capitalize'
+                                                        }}>{contract.all_contract_status}</TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            fontSize: '.8rem', // Adjust font size as needed
+                                                            textTransform: 'capitalize'
+                                                        }}>{contract.all_contract_status}</TableCell>
                                                     {/* <TableCell
                                                         sx={{
                                                             fontSize: '.8rem', // Adjust font size as needed
@@ -587,11 +634,11 @@ const Dashboard: React.FC = () => {
                                                         <CustomIconButton onClick={() => downloadContract(contract)} aria-label="download">
                                                             <DownloadIcon />
                                                         </CustomIconButton>
-                                                        {contract.all_contract_status!='comleted' && 
-                                                        <CustomIconButton onClick={() => getEnvalopContractStatus(contract.all_contract_envelopeId)} aria-label="Review Status">
-                                                            <RefreshIcon />
-                                                        </CustomIconButton>
-}
+                                                        {contract.all_contract_status != 'comleted' &&
+                                                            <CustomIconButton onClick={() => getEnvalopContractStatus(contract.all_contract_envelopeId)} aria-label="Review Status">
+                                                                <RefreshIcon />
+                                                            </CustomIconButton>
+                                                        }
                                                         {/* <Button color="primary" onClick={() => getEnvalopResendContract(contract.all_contract_envelopeId)}>Resend</Button> */}
                                                     </TableCell>
                                                 </TableRow>

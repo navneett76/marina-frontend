@@ -46,7 +46,7 @@ interface CustomerListProps {
 const CustomerDataList: React.FC<CustomerListProps> = ({ data, onUpdate }) => {
   const [searchInput, setSearchInput] = useState('');
   const [editId, setEditId] = useState<number | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState<keyof Customer>('id');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);

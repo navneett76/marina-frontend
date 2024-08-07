@@ -36,7 +36,7 @@ export const useAxiosInstance = () => {
     (error) => {
       // hideLoader();
       console.log("Axios catch error", error);
-      setError(error.response ? error.response?.data : '');
+      setError(error.response ? error.response?.data : null);
       return Promise.reject(error);
     }
   );

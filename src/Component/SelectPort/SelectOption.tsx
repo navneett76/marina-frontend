@@ -36,7 +36,7 @@ const SelectOption: React.FC = () => {
         <div className='login-container'>
             <img src='../../../logo.png' alt="imagelogo" className='logo-img' />
             <div className='login-form'>
-                <h1>Select a port</h1>
+                <h1>Select Marina</h1>
                 <form onSubmit={handleSubmit}>
                     <div>
                         {/* <label>Options: </label> */}

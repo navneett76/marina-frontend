@@ -53,7 +53,7 @@ const Dashboard2: React.FC = () => {
     const [filterFlag, setFilterFlag] = useState<boolean>(true);
 
     const location = useLocation();
-    const { envelopesId } = (location.state) ? location.state : '';
+    const { envelopesId } = (location && location.state) ? location?.state : null;
     const { selectedPort } = usePorts();
 
     useEffect(() => {

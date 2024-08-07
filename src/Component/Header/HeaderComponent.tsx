@@ -71,8 +71,8 @@ const HeaderComponent = () => {
                 </div> */}
                 <div className="header-user-section">
                     <div className="username-section">
-                        <span><i className="fa-regular fa-user"></i> <b>Welcome {user?.username}</b></span>
-                        <select className="port-list" value={selectedPort ?? undefined} onChange={handlePortChange}>
+                        <span><i className="fa-regular fa-user"></i> <b>Welcome {(user)? user.username: ''}</b></span>
+                        <select className="port-list" value={selectedPort ? selectedPort: undefined} onChange={handlePortChange}>
                             {ports.map(port => (
                                 <option className="option_val" key={port.id} value={port.id}  >
                                     {port.portName}
